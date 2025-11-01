@@ -52,6 +52,14 @@ function isValidNumber(value: unknown): boolean {
   }
   return false;
 }
+
+// Helper function to convert to number (handles string numbers)
+function toNumber(value: unknown): number {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return Number(value);
+}
 // Helper function to validate ISO 8601 date format
 function isValidTimestamp(timestamp: unknown): boolean {
   if (typeof timestamp !== 'string') {
