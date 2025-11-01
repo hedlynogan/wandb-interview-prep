@@ -33,15 +33,106 @@ interface MetricData {
   timestamp: string;
   unit?: string;  // Optional field, like String? in Kotlin/Swift or str | None in Python
 }
-
-interface ParseResult {
-  // Your code here
+interface ParseError {
+  index: number;
+  reason: string;
 }
-
+interface ParseResult {
+  valid: MetricData[];
+  errors: ParseError[];
+}
+// Helper function to check if a value is a valid number or numeric string
+function isValidNumber(value: unknown): boolean {
+  if (typeof value === 'number' && !isNaN(value)) {
+    return true;
+  }
+  if (typeof value === 'string') {
+    const num = Number(value);
+    return !isNaN(num);
+  }
+  return false;
+}
+// Helper function to validate ISO 8601 date format
+function isValidTimestamp(timestamp: unknown): boolean {
+  if (typeof timestamp !== 'string') {
+    return false;
+  }
+  // Check if it's a valid ISO 8601 date string
+  const date = new Date(timestamp);
+  return !isNaN(date.getTime()) && timestamp.includes('T');
+}
 // TODO: Implement the parser
 export function parseMetrics(jsonData: unknown[]): ParseResult {
-  // Your code here
-  throw new Error("Not implemented");
+  const valid: MetricData[] = [];
+  const errors: ParseError[] = [];
+
+  // Iterate through each item with its index
+  jsonData.forEach((item, index) => {
+    // Type guard: ensure item is an object
+    if (typeof item !== 'object' || item === null) {
+      errors.push({
+        index,
+        reason: 'Item is not an object'
+      });
+      return; // Continue to next item (like 'continue' in a for loop)
+    }
+
+    // Cast to any to access properties (we'll validate them)
+    const data = item as any;
+
+    // Validate required field: id
+    if (typeof data.id !== 'string' || data.id.trim() === '') {
+      errors.push({
+        index,
+        reason: 'Missing or invalid required field: id'
+      });
+      return;
+    }
+
+    // Validate required field: name
+    if (typeof data.name !== 'string' || data.name.trim() === '') {
+      errors.push({
+        index,
+        reason: 'Missing or invalid required field: name'
+      });
+      return;
+    }
+
+    // Validate required field: value (must be number or numeric string)
+    if (!isValidNumber(data.value)) {
+      errors.push({
+        index,
+        reason: 'Missing or invalid required field: value (must be a number)'
+      });
+      return;
+    }
+
+    // Validate required field: timestamp
+    if (!isValidTimestamp(data.timestamp)) {
+      errors.push({
+        index,
+        reason: 'Missing or invalid required field: timestamp (must be valid ISO 8601 format)'
+      });
+      return;
+    }
+
+    // All validations passed - create the MetricData object
+    const metricData: MetricData = {
+      id: data.id,
+      name: data.name,
+      value: toNumber(data.value),
+      timestamp: data.timestamp
+    };
+
+    // Add optional unit field if present
+    if (data.unit !== undefined && typeof data.unit === 'string') {
+      metricData.unit = data.unit;
+    }
+
+    valid.push(metricData);
+  });
+
+  return { valid, errors };
 }
 
 // Test data
