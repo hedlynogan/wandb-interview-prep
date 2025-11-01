@@ -1,4 +1,3 @@
-I'll create a comprehensive README for your project. Create `README.md` in the root directory:
 
 ```markdown
 # CoreWeave TypeScript Practice
