@@ -1,5 +1,3 @@
-Here's the complete PIPELINE.md markdown that you can copy and paste:
-
 ```markdown
 # Transformer Pipeline Pattern
 
