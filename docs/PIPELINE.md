@@ -1,4 +1,3 @@
-```markdown
 # Transformer Pipeline Pattern
 
 A comprehensive guide to the transformer pipeline pattern for data processing and transformation.
@@ -578,4 +577,3 @@ The transformer pipeline pattern is a powerful tool for building maintainable, t
 - Functional Programming Pipelines
 - Stream Processing
 - ETL Design Patterns
-```
