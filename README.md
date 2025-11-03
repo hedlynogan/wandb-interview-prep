@@ -1,4 +1,4 @@
-# CoreWeave TypeScript Practice
+# TypeScript Practice
 
 A TypeScript practice project focused on JSON parsing, data validation, and type safety for mobile/backend API integration scenarios.
 
