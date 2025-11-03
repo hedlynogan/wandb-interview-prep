@@ -276,17 +276,3 @@ Practice project for TypeScript skill development with real-world mobile/backend
 
 **Note:** This project emphasizes type safety, error handling, and patterns commonly used in production mobile applications. Each problem demonstrates industry best practices for building robust, maintainable TypeScript applications.
 ```
-Now commit with:
-
-```bash
-git add README.md
-git commit -m "docs: refactor README to summarize all 5 problems
-
-- Add concise descriptions for all 5 problems
-- Include key concepts for each problem
-- Link to detailed documentation in docs/ directory
-- Reorganize structure for better navigation
-- Add learning path recommendations
-- Update project structure to show all files
-- Improve readability with clear sections"
-```
