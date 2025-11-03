@@ -1,12 +1,10 @@
-
-```markdown
 # CoreWeave TypeScript Practice
 
 A TypeScript practice project focused on JSON parsing, data validation, and type safety for mobile/backend API integration scenarios.
 
 ## 📋 Project Overview
 
-This project contains programming exercises that demonstrate real-world TypeScript patterns commonly used in mobile and web development, particularly when dealing with API responses that may contain malformed or inconsistent data.
+This project contains 5 programming exercises that demonstrate real-world TypeScript patterns commonly used in mobile and web development, particularly when dealing with API responses that may contain malformed or inconsistent data.
 
 ## 🚀 Getting Started
 
@@ -15,8 +13,8 @@ This project contains programming exercises that demonstrate real-world TypeScri
 - npm (comes with Node.js)
 
 ### Installation
-```
-bash
+
+```bash
 # Install dependencies
 npm install
 
@@ -29,213 +27,124 @@ npm test
 # Run tests in watch mode (re-runs on file changes)
 npm test:watch
 ```
-## 📁 Project Structure
 ```
 
+
+## 📁 Project Structure
+
+```
 Coreweave/
 ├── src/
 │   ├── problems/
-│   │   └── problem1.ts          # Metric Data Parser implementation
-│   └── index.ts                 # Main entry point for manual testing
+│   │   ├── problem1.ts          # Metric Data Parser
+│   │   ├── problem2.ts          # Dynamic Component Renderer
+│   │   ├── problem3.ts          # Type-Safe API Client
+│   │   ├── problem4.ts          # Zod Schema Validator
+│   │   └── problem5.ts          # Data Transformer Pipeline
+│   └── index.ts                 # Main entry point for testing
+├── docs/
+│   ├── PIPELINE.md              # Transformer Pipeline Pattern Guide
+│   ├── APICLIENT.md             # Type-Safe API Client Guide
+│   └── ZOD.md                   # Zod Schema Validation Guide
 ├── tests/
 │   └── problems.test.ts         # Jest unit tests
-├── node_modules/                # Dependencies (not committed)
 ├── .gitignore                   # Git ignore rules
 ├── jest.config.js               # Jest testing configuration
 ├── package.json                 # Project dependencies and scripts
 ├── tsconfig.json                # TypeScript compiler configuration
 └── README.md                    # This file
 ```
+
+
 ## 🎯 Problems & Concepts
 
 ### Problem 1: Metric Data Parser
-
-**Scenario:** Building a mobile dashboard that displays GPU metrics from a backend API with potentially malformed JSON data.
-
 **File:** `src/problems/problem1.ts`
 
-**Objective:** Create a type-safe parser that validates and transforms JSON data, handling missing or invalid fields gracefully.
+Parse and validate GPU metrics from a backend API with potentially malformed JSON data.
 
-#### Key TypeScript Concepts Demonstrated
+**Key Concepts:**
+- Interfaces & type definitions
+- Type guards and type narrowing
+- `unknown` vs `any`
+- Manual validation patterns
+- Error handling with discriminated unions
 
-##### 1. **Interfaces & Type Definitions**
-```typescript
-interface MetricData {
-  id: string;
-  name: string;
-  value: number;
-  timestamp: string;
-  unit?: string;  // Optional property
-}
-```
-- Defines the shape of data structures
-- Similar to: Kotlin `data class`, Swift `struct`, Python `TypedDict`
-- `?` denotes optional properties (like Kotlin's `String?` or Swift's `String?`)
+**Demonstrates:** Basic TypeScript type safety, runtime validation, and error handling patterns.
 
-##### 2. **Type Safety with `unknown`**
-```typescript
-function parseMetrics(jsonData: unknown[]): ParseResult
-```
-- `unknown` is TypeScript's safe alternative to `any`
-- Forces explicit type checking before use
-- Similar to: Kotlin's checked `Any`, Swift's type-checking patterns
+---
 
-##### 3. **Type Guards**
-```typescript
-if (typeof value === 'string') {
-  // TypeScript now knows value is a string
-}
-```
-- Runtime type checking that narrows types
-- Similar to: Kotlin's `is` operator, Swift's `is` keyword, Python's `isinstance()`
+### Problem 2: Dynamic Component Renderer
+**File:** `src/problems/problem2.ts`
 
-##### 4. **Type Assertions**
-```typescript
-const data = item as any;
-```
-- Tells TypeScript to treat a value as a specific type
-- Similar to: Kotlin's `as`, Swift's `as!`, Python's type cast
-- Used carefully after validation
+Build a server-driven UI system that validates and renders mobile components from JSON configuration.
 
-##### 5. **Array Methods with Type Inference**
-```typescript
-jsonData.forEach((item, index) => { ... });
-```
-- TypeScript infers types through array methods
-- Similar to: Kotlin's `.forEachIndexed()`, Swift's `.enumerated()`, Python's `enumerate()`
+**Key Concepts:**
+- Component registry pattern
+- Discriminated unions with type predicates
+- Recursive type definitions
+- Type-safe validation with generics
+- Extensible architecture
 
-##### 6. **Discriminated Unions (Result Pattern)**
-```typescript
-interface ParseResult {
-  valid: MetricData[];
-  errors: ParseError[];
-}
-```
-- Returns both successful and failed results
-- Similar to: Kotlin's `Result`, Swift's `Result`, Python's multiple return pattern
+**Demonstrates:** Advanced pattern matching, plugin architecture, and type-safe component systems.
 
-##### 7. **Validation Patterns**
-- String validation with trim checks
-- Numeric value coercion (`"75"` → `75`)
-- ISO 8601 date format validation
-- Graceful error handling with descriptive messages
+📖 **Detailed Guide:** See [docs/PIPELINE.md](docs/PIPELINE.md) for the transformer pipeline pattern (used in Problem 5).
 
-#### Sample Input/Output
+---
 
-**Input:**
-```json
-[
-  { "id": "gpu-1", "name": "GPU Utilization", "value": 85.5, "timestamp": "2025-10-27T10:00:00Z" },
-  { "id": "gpu-2", "name": "GPU Temperature", "value": "75", "timestamp": "invalid-date" },
-  { "id": "gpu-3", "value": 90.0 },
-  { "id": "gpu-4", "name": "GPU Memory", "value": 12.5, "timestamp": "2025-10-27T10:00:00Z", "unit": "GB" }
-]
-```
+### Problem 3: Type-Safe API Client
+**File:** `src/problems/problem3.ts`
 
-**Output:**
-```
+Create a fully type-safe HTTP client with error handling, retries, and automatic data transformation.
 
-- Defines the shape of data structures
-- Similar to: Kotlin `data class`, Swift `struct`, Python `TypedDict`
-- `?` denotes optional properties (like Kotlin's `String?` or Swift's `String?`)
+**Key Concepts:**
+- Generic types with `<T>`
+- Discriminated unions for success/error responses
+- Async/await patterns
+- Retry logic with recursion
+- Type transformation (ISO strings → Date objects)
 
-##### 2. **Type Safety with `unknown`**
-```typescript
-function parseMetrics(jsonData: unknown[]): ParseResult
-```
+**Demonstrates:** Production-ready API client patterns for mobile applications.
 
-- `unknown` is TypeScript's safe alternative to `any`
-- Forces explicit type checking before use
-- Similar to: Kotlin's checked `Any`, Swift's type-checking patterns
+📖 **Detailed Guide:** See [docs/APICLIENT.md](docs/APICLIENT.md) for comprehensive API client patterns.
 
-##### 3. **Type Guards**
-```typescript
-if (typeof value === 'string') {
-  // TypeScript now knows value is a string
-}
-```
+---
 
-- Runtime type checking that narrows types
-- Similar to: Kotlin's `is` operator, Swift's `is` keyword, Python's `isinstance()`
+### Problem 4: JSON Schema Validator with Zod
+**File:** `src/problems/problem4.ts`
 
-##### 4. **Type Assertions**
-```typescript
-const data = item as any;
-```
+Use Zod for runtime type validation of complex nested data structures with schema migrations.
 
-- Tells TypeScript to treat a value as a specific type
-- Similar to: Kotlin's `as`, Swift's `as!`, Python's type cast
-- Used carefully after validation
+**Key Concepts:**
+- Zod schema definitions
+- Type inference with `z.infer<>`
+- Runtime validation
+- Schema migration/versioning
+- Nested object validation
 
-##### 5. **Array Methods with Type Inference**
-```typescript
-jsonData.forEach((item, index) => { ... });
-```
+**Demonstrates:** Modern schema validation, type inference, and handling API version changes.
 
-- TypeScript infers types through array methods
-- Similar to: Kotlin's `.forEachIndexed()`, Swift's `.enumerated()`, Python's `enumerate()`
+📖 **Detailed Guide:** See [docs/ZOD.md](docs/ZOD.md) for Zod patterns and version migration issues.
 
-##### 6. **Discriminated Unions (Result Pattern)**
-```typescript
-interface ParseResult {
-  valid: MetricData[];
-  errors: ParseError[];
-}
-```
+---
 
-- Returns both successful and failed results
-- Similar to: Kotlin's `Result`, Swift's `Result`, Python's multiple return pattern
+### Problem 5: Data Transformer Pipeline
+**File:** `src/problems/problem5.ts`
 
-##### 7. **Validation Patterns**
-- String validation with trim checks
-- Numeric value coercion (`"75"` → `75`)
-- ISO 8601 date format validation
-- Graceful error handling with descriptive messages
+Build a composable pipeline for transforming API data through multiple stages with full type safety.
 
-#### Sample Input/Output
+**Key Concepts:**
+- Pipeline pattern
+- Generic type transformations
+- Method chaining with generics
+- Async transformation support
+- Functional composition
 
-**Input:**
-```json
-[
-  { "id": "gpu-1", "name": "GPU Utilization", "value": 85.5, "timestamp": "2025-10-27T10:00:00Z" },
-  { "id": "gpu-2", "name": "GPU Temperature", "value": "75", "timestamp": "invalid-date" },
-  { "id": "gpu-3", "value": 90.0 },
-  { "id": "gpu-4", "name": "GPU Memory", "value": 12.5, "timestamp": "2025-10-27T10:00:00Z", "unit": "GB" }
-]
-```
+**Demonstrates:** Advanced functional patterns for data transformation workflows.
 
+📖 **Detailed Guide:** See [docs/PIPELINE.md](docs/PIPELINE.md) for complete pipeline pattern documentation.
 
-**Output:**
-```json
-{
-  "valid": [
-    {
-      "id": "gpu-1",
-      "name": "GPU Utilization",
-      "value": 85.5,
-      "timestamp": "2025-10-27T10:00:00Z"
-    },
-    {
-      "id": "gpu-4",
-      "name": "GPU Memory",
-      "value": 12.5,
-      "timestamp": "2025-10-27T10:00:00Z",
-      "unit": "GB"
-    }
-  ],
-  "errors": [
-    {
-      "index": 1,
-      "reason": "Missing or invalid required field: timestamp (must be valid ISO 8601 format)"
-    },
-    {
-      "index": 2,
-      "reason": "Missing or invalid required field: name"
-    }
-  ]
-}
-```
-
+---
 
 ## 🛠️ Technology Stack
 
@@ -244,10 +153,19 @@ interface ParseResult {
 - **Jest 30.2.0** - Testing framework
 - **ts-jest 29.4.5** - TypeScript preprocessor for Jest
 - **ts-node 10.9.2** - TypeScript execution for Node.js
-- **date-fns 4.1.0** - Date utility library (available for use)
-- **zod 4.1.12** - Schema validation library (available for use)
+- **date-fns 4.1.0** - Date utility library
+- **zod 4.1.12** - Schema validation library
 
-## 📚 Key Takeaways
+## 📚 Key TypeScript Concepts
+
+This project covers essential TypeScript patterns:
+
+✅ **Type Safety**: `unknown`, type guards, type assertions  
+✅ **Generics**: `<T>`, type parameters, generic constraints  
+✅ **Advanced Types**: Discriminated unions, literal types, mapped types  
+✅ **Patterns**: Result pattern, registry pattern, pipeline pattern  
+✅ **Async**: Promises, async/await, error handling  
+✅ **Validation**: Runtime checks, schema validation, type inference  
 
 ### For Kotlin Developers
 - `interface` ≈ `data class` or `interface`
@@ -270,6 +188,28 @@ interface ParseResult {
 - `?` optional ≈ `Optional[T]` or `T | None`
 - `as` assertion ≈ type casting with `cast()`
 
+## 📖 Documentation
+
+Comprehensive guides are available in the `docs/` directory:
+
+- **[PIPELINE.md](docs/PIPELINE.md)** - Transformer Pipeline Pattern
+  - Pipeline design principles
+  - Composable transformations
+  - Type-safe data flows
+  - Real-world examples
+
+- **[APICLIENT.md](docs/APICLIENT.md)** - Type-Safe API Client Guide
+  - Generic API client implementation
+  - Error handling strategies
+  - Retry logic patterns
+  - Type transformation techniques
+
+- **[ZOD.md](docs/ZOD.md)** - Zod Schema Validation Guide
+  - Zod 4.x API reference
+  - Schema definition patterns
+  - Type inference
+  - Version migration issues and solutions
+
 ## 🧪 Testing
 
 Tests are located in `tests/problems.test.ts` and use Jest framework.
@@ -284,30 +224,44 @@ npm test:watch
 
 
 ### Test Coverage
-- ✅ Validates correct parsing of valid metrics
-- ✅ Validates error detection for invalid metrics
-- ✅ Confirms type safety and error messages
+- ✅ Problem 1: Metric parsing and error handling
+- ✅ Problem 2: Component rendering and validation
+- ⚠️  Problem 3-5: TODO - Add comprehensive tests
 
 ## 📝 Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Runs the main application (manual test) |
+| `npm start` | Runs all problems with test data |
 | `npm test` | Runs Jest test suite |
 | `npm test:watch` | Runs Jest in watch mode for development |
 
 ## 🔄 Development Workflow
 
-1. **Make changes** to source files in `src/`
-2. **Run manual test**: `npm start` (uses `src/index.ts`)
-3. **Run unit tests**: `npm test` (validates with Jest)
-4. **Iterate** until all tests pass
+1. **Explore problems** in `src/problems/`
+2. **Read documentation** in `docs/` for detailed patterns
+3. **Run manual test**: `npm start`
+4. **Run unit tests**: `npm test`
+5. **Iterate** until all tests pass
 
-## 📖 Learning Resources
+## 🎓 Learning Path
+
+**Recommended order:**
+
+1. **Problem 1** - Start here for TypeScript fundamentals
+2. **Problem 2** - Learn advanced patterns and registries
+3. **Problem 3** - Master async patterns and API clients
+4. **Problem 4** - Explore schema validation with Zod
+5. **Problem 5** - Apply functional patterns with pipelines
+
+Each problem builds on concepts from previous ones.
+
+## 📖 Additional Resources
 
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [TypeScript for Java/C# Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Zod Documentation](https://zod.dev/)
 - [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
 
 ## 📄 License
@@ -316,17 +270,23 @@ ISC
 
 ## 👨‍💻 Author
 
-Practice project for TypeScript skill development
-```
-This README provides:
-- ✅ Clear project overview
-- ✅ Setup instructions
-- ✅ Detailed concept explanations
-- ✅ Comparisons to Kotlin, Swift, and Python
-- ✅ Sample input/output
-- ✅ Testing instructions
-- ✅ Development workflow guidance
+Practice project for TypeScript skill development with real-world mobile/backend integration patterns.
 
-Create this file in your project root, then you can commit everything!
-```
+---
 
+**Note:** This project emphasizes type safety, error handling, and patterns commonly used in production mobile applications. Each problem demonstrates industry best practices for building robust, maintainable TypeScript applications.
+```
+Now commit with:
+
+```bash
+git add README.md
+git commit -m "docs: refactor README to summarize all 5 problems
+
+- Add concise descriptions for all 5 problems
+- Include key concepts for each problem
+- Link to detailed documentation in docs/ directory
+- Reorganize structure for better navigation
+- Add learning path recommendations
+- Update project structure to show all files
+- Improve readability with clear sections"
+```
